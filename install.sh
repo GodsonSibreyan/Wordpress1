@@ -1,8 +1,6 @@
 #!/bin/bash
 #usermod -a -G root ec2-user
 sudo /bin/su - root
-sudo yum update -y
-sudo yum install epel-release -y
 sudo yum install git -y
 sudo yum install wget -y
 sudo yum install httpd -y
@@ -21,11 +19,12 @@ sudo echo "FLUSH PRIVILEGES;" | mysql
 cd /root/
 sudo git clone https://github.com/Ragu3492/wp-config.git
 sudo cd /var/www/html
-sudo curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-sudo php wp-cli.phar --info
-sudo chmod +x wp-cli.phar
-sudo mv wp-cli.phar /usr/local/bin/wp
-sudo wp --info --allow-root
+curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+php wp-cli.phar --info
+chmod +x wp-cli.phar
+mv wp-cli.phar /usr/bin/wp
+wp --info
+
 cd /var/www/html
 wp core download --allow-root
 #wp config create --dbname=zippyopsdb --dbuser=zippyops --dbpass=zippyops --locale=ro_RO --allow-root
@@ -45,7 +44,7 @@ sed -i 's/ //g' /root/file
 endpoint=$(<file)
 echo $endpoint
 git clone -b deploy --single-branch https://github.com/marylydiaj/zippyops_wordpress.git
-sudo cp /root/Wordpress/zippyopssite.wordpress.2020-04-22.000.xml /var/www/html/
+sudo cp /root/zippyops_wordpress/zippyopssite.wordpress.2020-04-22.000.xml /var/www/html/
 cd /var/www/html
 wp theme install Consulting --allow-root
 wp theme activate consulting --allow-root
